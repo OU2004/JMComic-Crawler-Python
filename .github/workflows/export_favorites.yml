@@ -67,7 +67,19 @@ jobs:
           
       - name: 执行代码
         run: |
-          python usage/workflow_export_favorites.py
+          cd ./usage/
+          python workflow_export_favorites.py
+          echo "=== 查找 export.7z ==="
+          find /home/runner/work/JMComic-Crawler-Python -name 'export.7z' -exec ls -lh {} \;
+          SRC=$(find /home/runner/work/JMComic-Crawler-Python -name 'export.7z' | head -n 1)
+          if [ -n "$SRC" ]; then
+            mkdir -p /home/runner/work/JMComic-Crawler-Python/JMComic-Crawler-Python/download
+            cp -f "$SRC" /home/runner/work/JMComic-Crawler-Python/JMComic-Crawler-Python/download/export.7z
+            echo "✅ 已复制到上传路径"
+          else
+            echo "❌ 没有生成 export.7z"
+            exit 1
+          fi
       
       - name: 上传结果
         uses: actions/upload-artifact@v4
