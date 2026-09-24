@@ -64,18 +64,21 @@ jobs:
       - name: 安装jmcomic（local）
         run: |
           pip install -e ./
-          
+
+      - name: 创建输出目录
+        run: mkdir -p ${{ github.workspace }}/download
+       
       - name: 执行代码
         run: |
-         cd ./usage/
-         python -u workflow_export_favorites.py 2>&1 | tee run.log
-         echo "=== python 退出码: $? ==="
-         echo "=== run.log 内容 ==="
-         cat run.log
-         echo "=== 查找 export.7z ==="
-         find /home/runner/work/JMComic-Crawler-Python -name 'export.7z' -exec ls -lh {} \;
-         echo "=== 找所有 7z ==="
-         find /home/runner/work/JMComic-Crawler-Python -name '*.7z' -exec ls -lh {} \;
+          cd ./usage/
+          python -u workflow_export_favorites.py 2>&1 | tee run.log
+          echo "=== python 退出码: $? ==="
+          echo "=== run.log 内容 ==="
+          cat run.log
+          echo "=== 查找 export.7z ==="
+          find /home/runner/work/JMComic-Crawler-Python -name 'export.7z' -exec ls -lh {} \;
+          echo "=== 找所有 7z ==="
+          find /home/runner/work/JMComic-Crawler-Python -name '*.7z' -exec ls -lh {} \;
           echo "=== usage 目录 ==="
           ls -la
           echo "=== usage/download ==="
