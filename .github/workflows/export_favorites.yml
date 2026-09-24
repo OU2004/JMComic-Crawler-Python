@@ -45,7 +45,7 @@ jobs:
       EMAIL_CONTENT: ${{ secrets.EMAIL_CONTENT }}
 
       # 固定值
-      ZIP_FP: /home/runner/work/jmcomic/download/export.7z
+      ZIP_FP: ${{ github.workspace }}/download/export.7z
 
     steps:
       - uses: actions/checkout@v4
