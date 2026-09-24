@@ -67,19 +67,19 @@ jobs:
           
       - name: 执行代码
         run: |
-          cd ./usage/
-          python workflow_export_favorites.py
-          echo "=== 查找 export.7z ==="
-          find /home/runner/work/JMComic-Crawler-Python -name 'export.7z' -exec ls -lh {} \;
-          SRC=$(find /home/runner/work/JMComic-Crawler-Python -name 'export.7z' | head -n 1)
-          if [ -n "$SRC" ]; then
-            mkdir -p /home/runner/work/JMComic-Crawler-Python/JMComic-Crawler-Python/download
-            cp -f "$SRC" /home/runner/work/JMComic-Crawler-Python/JMComic-Crawler-Python/download/export.7z
-            echo "✅ 已复制到上传路径"
-          else
-            echo "❌ 没有生成 export.7z"
-            exit 1
-          fi
+         cd ./usage/
+         python -u workflow_export_favorites.py 2>&1 | tee run.log
+         echo "=== python 退出码: $? ==="
+         echo "=== run.log 内容 ==="
+         cat run.log
+         echo "=== 查找 export.7z ==="
+         find /home/runner/work/JMComic-Crawler-Python -name 'export.7z' -exec ls -lh {} \;
+         echo "=== 找所有 7z ==="
+         find /home/runner/work/JMComic-Crawler-Python -name '*.7z' -exec ls -lh {} \;
+          echo "=== usage 目录 ==="
+          ls -la
+          echo "=== usage/download ==="
+          ls -la download/ 2>/dev/null || echo "usage/download 不存在"
       
       - name: 上传结果
         uses: actions/upload-artifact@v4
