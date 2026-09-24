@@ -64,12 +64,11 @@ jobs:
       - name: 安装jmcomic（local）
         run: |
           pip install -e ./
-
+          
       - name: 执行代码
         run: |
-          cd ./usage/
-          python workflow_export_favorites.py
-
+          python usage/workflow_export_favorites.py
+      
       - name: 上传结果
         uses: actions/upload-artifact@v4
         with:
